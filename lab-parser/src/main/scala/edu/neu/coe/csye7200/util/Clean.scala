@@ -1,6 +1,6 @@
 package edu.neu.coe.csye7200.util
 
-import edu.neu.coe.csye7200.util.FileCleaner.{discardLine, getConfiguration, noleak, noleakFlat, sequence, validExtensions}
+import edu.neu.coe.csye7200.util.FileCleaner._
 import java.io.{BufferedWriter, File, FileWriter, Writer}
 import java.nio.file.FileSystems.getDefault
 import java.nio.file.Files.walk
@@ -67,16 +67,11 @@ class FileCleaner(solution: String, stub: String, terminator: String) extends Ja
   case class ParsedLine(n: Int, prefix: String, maybeMaybeString: Option[Option[String]], suffix: String) {
     def render(isStub: Boolean): String =
       (maybeMaybeString, suffix) match {
-        case (Some(Some(`solution`)), b) =>
-          s"$prefix// " + TOBEIMPLEMENTED + s" $b"
-        case (Some(Some(`stub`)), b) =>
-          discardLine
-        case (Some(Some(a)), b) =>
-          s"$prefix// $a$b"
-        case (Some(None), b) if !isStub =>
-          s"$prefix//$b"
-        case (_, b) =>
-          s"$prefix$b"
+        case (Some(Some(`solution`)), b) => s"$prefix// " + TOBEIMPLEMENTED + s" $b"
+        case (Some(Some(`stub`)), b) => discardLine
+        case (Some(Some(a)), b) => s"$prefix// $a$b"
+        case (Some(None), b) if !isStub => s"$prefix//$b"
+        case (_, b) => s"$prefix$b"
       }
   }
 
@@ -108,7 +103,6 @@ class FileCleaner(solution: String, stub: String, terminator: String) extends Ja
           } else
             isStub = false
         case _ =>
-          logger.logDebug("ordinary line")
       }
       if (defaultStub) defaultStubString else if (transition || output) commentedLine.render(isStub) else discardLine
     }

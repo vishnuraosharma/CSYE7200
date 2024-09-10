@@ -4,13 +4,13 @@ import akka.actor.{ActorSystem, Props}
 import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.config.{Config, ConfigFactory}
+import java.net.URL
 import org.scalatest._
 import org.scalatest.concurrent._
-import org.scalatest.tagobjects.Slow
-import org.scalatest.time._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import java.net.URL
+import org.scalatest.tagobjects.Slow
+import org.scalatest.time._
 import scala.annotation.unused
 import scala.concurrent.duration._
 //import scala.language.postfixOps
@@ -39,7 +39,8 @@ class MapReduceSpec extends AnyFlatSpec with Matchers with Futures with ScalaFut
   `spec1` should "work for http://www.bbc.com/ http://www.cnn.com/ http://default/" taggedAs Slow in {
     //noinspection ScalaUnusedSymbol
     def mapper(@unused q: Unit, w: String): (URL, String) = {
-      val u = MockURL(w); (u.get, u.content)
+      val u = MockURL(w);
+      (u.get, u.content)
     }
 
     val props = Props.create(classOf[Master_First_Fold[String, URL, String, Seq[String]]], config, mapper _, reducer _, () => Nil)
@@ -76,7 +77,8 @@ class MapReduceSpec extends AnyFlatSpec with Matchers with Futures with ScalaFut
 
   `spec0` should "work for http://www.bbc.com/ http://www.cnn.com/ http://default/" taggedAs Slow in {
     def mapper1(@unused q: Unit, w: String): (URL, String) = {
-      val u = MockURL(w); (u.get, u.content)
+      val u = MockURL(w);
+      (u.get, u.content)
     }
 
     val props1 = Props.create(classOf[Master_First_Fold[String, URL, String, Seq[String]]], config, mapper1 _, reducer _, () => Nil)
@@ -102,7 +104,8 @@ class MapReduceSpec extends AnyFlatSpec with Matchers with Futures with ScalaFut
 
   it should "fail because mapper is incorrectly defined" taggedAs Slow in {
     def mapper1(@unused q: Unit, w: String): (URL, String) = {
-      val u = MockURL(w); (u.get, u.content)
+      val u = MockURL(w);
+      (u.get, u.content)
     }
 
     val props1 = Props.create(classOf[Master_First_Fold[String, URL, String, Seq[String]]], config, mapper1 _, reducer _, () => Nil)

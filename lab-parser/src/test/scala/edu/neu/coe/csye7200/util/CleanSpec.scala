@@ -4,7 +4,6 @@ import edu.neu.coe.csye7200.util.FileCleaner.{noleak, noleakFlat}
 import java.io.{BufferedWriter, File, FileWriter}
 import org.scalatest.{FlatSpec, Matchers}
 import scala.io.Source
-import scala.util.control.NonFatal
 import scala.util.{Failure, Success, Try}
 
 class CleanSpec extends FlatSpec with Matchers {
@@ -15,24 +14,28 @@ class CleanSpec extends FlatSpec with Matchers {
 
   it should "clean 0" in {
     val cleaner = new FileCleaner("SOLUTION", "STUB", "END SOLUTION")
-    cleaner.clean("assignment-web-crawler/src/main/scala/edu/neu/coe/csye7200/asstwc/SolutionTemplateTest.sc", "output.txt")
+    val result = cleaner.clean("assignment-web-crawler/src/main/scala/edu/neu/coe/csye7200/asstwc/SolutionTemplateTest.sc", "output.txt")
+    result shouldBe Success(2897)
   }
   it should "clean 1" in {
     val cleaner = new FileCleaner("SOLUTION", "STUB", "END SOLUTION")
-    cleaner.clean("../INFO6205/src/main/java/edu/neu/coe/info6205/BinarySearch.java", "output.txt")
+    val result = cleaner.clean("../INFO6205/src/main/java/edu/neu/coe/info6205/BinarySearch.java", "output.txt")
+    result shouldBe Success(1254)
   }
   it should "clean 2" in {
     val cleaner = new FileCleaner("SOLUTION", "STUB", "END SOLUTION")
-    cleaner.clean("assignment-web-crawler/src/main/scala/edu/neu/coe/csye7200/asstwc/WebCrawler.scala", "output.txt")
+    val result = cleaner.clean("assignment-web-crawler/src/main/scala/edu/neu/coe/csye7200/asstwc/WebCrawler.scala", "output.txt")
+    result shouldBe Success(8150)
   }
   it should "clean 3" in {
     val cleaner = new FileCleaner("SOLUTION", "STUB", "END SOLUTION")
-    cleaner.clean("assignment-functional-composition/src/main/scala/edu/neu/coe/csye7200/asstfc/Movie.scala", "output.txt")
+    val result = cleaner.clean("assignment-functional-composition/src/main/scala/edu/neu/coe/csye7200/asstfc/Movie.scala", "output.txt")
+    result shouldBe Success(9141)
   }
   it should "clean 4" in {
     val cleaner = new FileCleaner("SOLUTION", "STUB", "END")
     val result: Try[Int] = cleaner.clean("assignment-movie-database/src/main/scala/edu/neu/coe/csye7200/asstmd/Movie.scala", "badOutput.txt")
-    result shouldBe Success(8230)
+    result shouldBe Success(8183)
   }
 
   it should "parseLine 1" in {

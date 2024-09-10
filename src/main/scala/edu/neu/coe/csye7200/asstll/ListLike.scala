@@ -269,3 +269,10 @@ trait Monadic[+X] extends Functor[X] {
     */
   def toSeq: Seq[X]
 }
+
+object ListLike extends App {
+
+  val xs = List(1,2,3)
+  for (x <- xs) println(x)
+  println(for (x <- xs) yield x.toString)
+}

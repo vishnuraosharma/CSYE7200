@@ -1,14 +1,9 @@
 package edu.neu.coe.csye7200.assthw
 
 import scala.annotation.tailrec
+import scala.collection.immutable.Seq
 
-/**
- * This is the lazy version of MergeSort.
- * The difference is in the treatment of result in the inner method "merge."
- *
- * @tparam X underlying type that must support Ordering via an implicit value.
- */
-class MergeSort[X: Ordering] {
+class MergeSortEager[X: Ordering] {
 
     def sort(xs: List[X]): List[X] = xs match {
         case Nil => xs
@@ -17,13 +12,13 @@ class MergeSort[X: Ordering] {
             @tailrec
             def merge(result: List[X], l: List[X], r: List[X]): List[X] =
                 (l, r) match {
-                    case (Nil, _) => result.reverse ++ r // NOTE: necessary to reverse result.
-                    case (_, Nil) => result.reverse ++ l // NOTE: necessary to reverse result.
+                    case (_, Nil) => result ++ l
+                    case (Nil, _) => result ++ r
                     case (h1 :: t1, h2 :: t2) =>
                         if (implicitly[Ordering[X]].compare(h1, h2) <= 0)
-                            merge(h1 :: result, t1, r) // NOTE: fast but result will be backwards
+                            merge(result :+ h1, t1, r) // NOTE slow but result will be in proper order.
                         else
-                            merge(h2 :: result, l, t2) // NOTE: fast but result will be backwards
+                            merge(result :+ h2, l, t2) // NOTE slow but result will be in proper order.
                 }
 
             val (l, r) = xs.splitAt(xs.length / 2)
@@ -32,13 +27,13 @@ class MergeSort[X: Ordering] {
     }
 }
 
-object MergeSort extends App {
+object MergeSortEager extends App {
 
     def doMain(n: Int): Seq[Int] = {
-        val sorter = new MergeSort[Int]
+        val sorter = new MergeSortEager[Int]
         val list = (1 to n).toList.reverse
         sorter.sort(list)
     }
 
-    println(doMain(100000))
+    println(doMain(10000))
 }
