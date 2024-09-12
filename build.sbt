@@ -2,7 +2,7 @@ name := "CSYE7200"
 
 version := "1.0"
 
-ThisBuild / scalaVersion := "2.13.10"
+ThisBuild / scalaVersion := "2.13.14"
 
 lazy val scalaVersion2_12 = "2.12.17"
 

@@ -134,7 +134,7 @@ class MergeSortSpec extends AnyFlatSpec with should.Matchers {
   }
 
   it should "fail for doMain" in {
-    val N = 45000
+    val N = 100000
     a [StackOverflowError] should be thrownBy MergeSortStackOverflow.doMain(N)
   }
 

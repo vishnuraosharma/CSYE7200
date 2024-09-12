@@ -33,12 +33,3 @@ case class Time(abbreviation: String, datetime: String, day_of_week: Int, dst: B
 object TimeJsonProtocol extends DefaultJsonProtocol {
     implicit val timeFormat: RootJsonFormat[Time] = jsonFormat4(Time.apply)
 }
-
-object Tries {
-    def tryMatch[X](f: (X, X) => Boolean)(x: => X, expected: X, message: String): Try[X] =
-        if (f(x, expected)) Success(x) else Failure(new Exception(s"$message: $x did not equal $expected"))
-
-    def tryEquals[X](x: => X, expected: X, message: String): Try[X] = tryMatch[X](_ == _)(x, expected, message)
-
-    def tryNotEquals[X](x: => X, expected: X, message: String): Try[X] = tryMatch[X](_ != _)(x, expected, message)
-}

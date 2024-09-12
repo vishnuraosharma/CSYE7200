@@ -26,7 +26,7 @@ class MergeSort[X: Ordering] {
                             merge(h2 :: result, l, t2) // NOTE: fast but result will be backwards
                 }
 
-            val (l, r) = xs.splitAt(xs.length / 2)
+            val (l, r) = xs splitAt (xs.length / 2)
             val (ls, rs) = (sort(l), sort(r))
             merge(Nil, ls, rs)
     }
