@@ -71,7 +71,7 @@ case class MyLazyList[X](x: X, lazyTail: () => ListLike[X]) extends LazyListLike
   }
 
   /**
-    * Method to "zip" to ListLike objects together
+    * Method to "zip" to List Like objects together
     *
     * @param ys the stream of Ys
     * @tparam Y the underlying type of <code>ys</code>
@@ -406,8 +406,7 @@ object MyLazyList {
    *         <code>x+step</code>, etc.).
    */
   def from(start: Int, step: Int): ListLike[Int] = {
-// TO BE IMPLEMENTED 
-???
+      MyLazyList(start, () => from(start + step, step))
   }
 
 
