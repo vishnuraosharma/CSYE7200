@@ -21,7 +21,9 @@ class IngestSpec extends AnyFlatSpec with Matchers {
     val ingester = new Ingest[Int]()
     val xys = ingester(source).toSeq
     // check that xys has exactly one element, consisting of Success(42) -- 10 points
-    xys.size shouldBe 1
+    val validXys = xys.collect { case Success(value) => value }
+    validXys.size shouldBe 1
+    validXys.head shouldBe 42
     // TO BE IMPLEMENTED 
     // END
   }
