@@ -77,4 +77,7 @@ class RandomStateSpec extends AnyFlatSpec with Matchers {
     val z: RandomState[Double] = for (x <- r1; _ <- RandomState(x)) yield x.toDouble / Long.MaxValue
     z.get shouldBe -0.5380644352028887 +- 1E-6
   }
+
+  val r: RandomState[Long] = RandomState(0L)
+  print(r)
 }
