@@ -134,9 +134,9 @@ object Movie extends App {
     // 5 points
     // TO BE IMPLEMENTED
     import MoviesProtocol._
-    val json = ms.toJson
-    val deserializedMovies = json.convertTo[Seq[Movie]]
-    ms == deserializedMovies
+    val ms_json = ms.toJson
+    val deMovies = ms_json.convertTo[Seq[Movie]]
+    ms == deMovies
   }
 
   def getMoviesFromCountry(country: String, movies: Iterator[Try[Movie]]): Try[Seq[Movie]] = {
