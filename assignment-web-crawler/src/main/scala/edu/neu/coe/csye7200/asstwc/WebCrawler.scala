@@ -138,20 +138,33 @@ object WebCrawler extends App {
         // In the latter, use the method createURL(Option[URL], String) to get the appropriate URL for a relative link.
         // Don't forget to run it through validateURL.
         // 16 points.
-        def getURLs(ns: Node): Seq[Try[URL]] =
-// TO BE IMPLEMENTED 
- ???
-// END SOLUTION
+        def getURLs(ns: Node): Seq[Try[URL]] = {
+          // TO BE IMPLEMENTED
+          val anchors = ns \\ "a"
+          anchors.flatMap { node =>
+            Option(node \ "@href").map(_.text).filter(_.nonEmpty).map { href =>
+              for {
+                rawUrl <- createURL(Some(url), href)
+                validUrl <- validateURL(rawUrl)
+              } yield validUrl
+            }
+          }
+        }
+      // END SOLUTION
 
         def getLinks(g: String): Try[Seq[URL]] = {
             val ny: Try[Node] = HTMLParser.parse(g) recoverWith { case f => Failure(new RuntimeException(s"parse problem with URL $url: $f")) }
-            for (n <- ny; uys = getURLs(n); us <- MonadOps.sequenceForgiveSubsequent(uys) { case _: WebCrawlerProtocolException => true; case _ => false }) yield us
+            for (n <- ny; uys = getURLs(n); us <- MonadOps.sequenceForgiveSubsequent(uys)
+            { case _: WebCrawlerProtocolException => true; case _ => false }) yield us
         }
         // Hint: write as a for-comprehension, using getURLContent (above) and getLinks above. You will also need MonadOps.asFuture
         // 9 points.
 
 // TO BE IMPLEMENTED 
-         ???
+        for {
+          content <- getURLContent(url)
+          links <- MonadOps.asFuture(getLinks(content))
+        } yield links
         // END SOLUTION
     }
 
